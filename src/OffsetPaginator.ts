@@ -44,7 +44,7 @@ export async function offsetPaginator(params: IPaginationParams): Promise<TPagin
 		previous = around[currentPageIndex - 1];
 	}
 
-	if (last.isCurrent === false) {
+	if (around[around.length - 1].isCurrent === false) {
 		next = around[currentPageIndex + 1];
 	}
 
