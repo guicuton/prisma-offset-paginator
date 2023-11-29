@@ -2,9 +2,16 @@
 	"name": "prisma-offset-paginator",
 	"version": "0.0.1",
 	"description": "Prisma ORM offset paginator",
-	"main": "src/index.ts",
+	"main": "dist/index.ts",
+	"types": "dist/index.d.ts",
+	"files": [
+		"/dist"
+	],
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"clean": "rm -rf dist",
+		"build": "npm -s run clean && tsc",
+		"tsc": "tsc",
+		"prepublish": "tsc"
 	},
 	"repository": {
 		"type": "git",
