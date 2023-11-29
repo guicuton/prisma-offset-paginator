@@ -3,16 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.offsetPaginator = void 0;
 const ParserAround_1 = require("./ParserAround");
 async function offsetPaginator(params) {
-    var _a;
     const model = params.instance[params.entity];
-    const offset = Number((_a = params.offset) !== null && _a !== void 0 ? _a : 0);
+    const offset = Number(params.offset ?? 0);
     const [count, data] = await params.instance.$transaction([
         model.count({
             where: params.where,
         }),
-        model.findMany(Object.assign(Object.assign({ take: params.per_page, skip: offset, where: params.where, orderBy: {
+        model.findMany({
+            take: params.per_page,
+            skip: offset,
+            where: params.where,
+            orderBy: {
                 [params.orderBy]: params.orderDirection,
-            } }, (params.select && { select: params.select })), (params.include && { include: params.include }))),
+            },
+            ...(params.select && { select: params.select }),
+            ...(params.include && { include: params.include }),
+        }),
     ]);
     if (data.length === 0)
         return;
