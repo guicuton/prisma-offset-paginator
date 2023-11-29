@@ -24,6 +24,8 @@ export interface TPaginationData {
 		totalOfPages: number;
 		first: IPaginationMeta;
 		last: IPaginationMeta;
+		previous: IPaginationMeta;
 		around: IPaginationMeta[];
+		next: IPaginationMeta;
 	};
 }

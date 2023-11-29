@@ -20,6 +20,8 @@ async function offsetPaginator(params) {
     let around = [];
     let first;
     let last;
+    let previous;
+    let next;
     for (let page = 1; page <= totalOfPages; page++) {
         around.push({
             page: page,
@@ -27,22 +29,30 @@ async function offsetPaginator(params) {
             isCurrent: offset / params.per_page + 1 === page ? true : false,
         });
     }
+    const currentPageIndex = around.findIndex((item) => item.isCurrent);
     if (around.length > params.bottom) {
-        const currentPageIndex = around.findIndex((item) => item.isCurrent);
         [first] = around;
         [last] = around.slice(-1);
         const slicerAround = (0, ParserAround_1.parserAround)(currentPageIndex, params.bottom);
         around = around.slice(...slicerAround);
     }
+    if (currentPageIndex > 0) {
+        previous = around[currentPageIndex - 1];
+    }
+    if (last.isCurrent === false) {
+        next = around[currentPageIndex + 1];
+    }
     return {
+        data,
         meta: {
             totalOfPages,
             first,
             last,
+            previous,
             around,
+            next,
             count,
         },
-        data,
     };
 }
 exports.offsetPaginator = offsetPaginator;

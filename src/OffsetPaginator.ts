@@ -1,7 +1,7 @@
 import { parserAround } from './ParserAround';
 import { IPaginationMeta, IPaginationParams, TPaginationData } from './interfaces';
 
-export async function offsetPaginator(params: IPaginationParams): Promise<TPaginationData | undefined> {
+export async function offsetPaginator(params: IPaginationParams): Promise<TPaginationData> {
 	const model = params.instance[params.entity];
 	const offset = Number(params.offset ?? 0);
 
@@ -27,6 +27,8 @@ export async function offsetPaginator(params: IPaginationParams): Promise<TPagin
 	let around: IPaginationMeta[] = [];
 	let first: IPaginationMeta;
 	let last: IPaginationMeta;
+	let previous: IPaginationMeta;
+	let next: IPaginationMeta;
 
 	for (let page = 1; page <= totalOfPages; page++) {
 		around.push({
@@ -36,9 +38,9 @@ export async function offsetPaginator(params: IPaginationParams): Promise<TPagin
 		});
 	}
 
-	if (around.length > params.bottom) {
-		const currentPageIndex = around.findIndex((item) => item.isCurrent);
+	const currentPageIndex = around.findIndex((item) => item.isCurrent);
 
+	if (around.length > params.bottom) {
 		[first] = around;
 		[last] = around.slice(-1);
 
@@ -46,14 +48,24 @@ export async function offsetPaginator(params: IPaginationParams): Promise<TPagin
 		around = around.slice(...slicerAround);
 	}
 
+	if (currentPageIndex > 0) {
+		previous = around[currentPageIndex - 1];
+	}
+
+	if (last.isCurrent === false) {
+		next = around[currentPageIndex + 1];
+	}
+
 	return {
+		data,
 		meta: {
 			totalOfPages,
 			first,
 			last,
+			previous,
 			around,
+			next,
 			count,
 		},
-		data,
 	};
 }
