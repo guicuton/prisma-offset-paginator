@@ -1,0 +1,28 @@
+{
+	"name": "prisma-offset-paginator",
+	"version": "0.0.1",
+	"description": "Prisma ORM offset paginator",
+	"main": "src/index.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/guicuton/prisma-offset-paginator.git"
+	},
+	"keywords": [
+		"prisma",
+		"paginator",
+		"offset"
+	],
+	"author": "guicuton",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/guicuton/prisma-offset-paginator/issues"
+	},
+	"homepage": "https://github.com/guicuton/prisma-offset-paginator#readme",
+	"devDependencies": {
+		"ts-node": "^10.9.1",
+		"typescript": "^5.3.2"
+	}
+}
