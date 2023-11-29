@@ -40,20 +40,20 @@ export async function offsetPaginator(params: IPaginationParams): Promise<TPagin
 
 	const currentPageIndex = around.findIndex((item) => item.isCurrent);
 
-	if (around.length > params.bottom) {
-		[first] = around;
-		[last] = around.slice(-1);
-
-		const slicerAround = parserAround(currentPageIndex, params.bottom);
-		around = around.slice(...slicerAround);
-	}
-
 	if (currentPageIndex > 0) {
 		previous = around[currentPageIndex - 1];
 	}
 
 	if (last.isCurrent === false) {
 		next = around[currentPageIndex + 1];
+	}
+
+	if (around.length > params.bottom) {
+		[first] = around;
+		[last] = around.slice(-1);
+
+		const slicerAround = parserAround(currentPageIndex, params.bottom);
+		around = around.slice(...slicerAround);
 	}
 
 	return {

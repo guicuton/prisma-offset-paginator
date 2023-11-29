@@ -1,6 +1,6 @@
 {
 	"name": "prisma-offset-paginator",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "Prisma ORM offset paginator",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
