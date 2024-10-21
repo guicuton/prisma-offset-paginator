@@ -13,9 +13,12 @@ export async function offsetPaginator(params: IPaginationParams): Promise<TPagin
 			take: params.per_page,
 			skip: offset,
 			where: params.where,
-			orderBy: {
-				[params.orderBy]: params.orderDirection,
-			},
+			orderBy:
+				typeof params.orderBy === 'string'
+					? {
+							[params.orderBy]: params.orderDirection,
+					  }
+					: params.orderBy,
 			...(params.select && { select: params.select }),
 			...(params.include && { include: params.include }),
 		}),

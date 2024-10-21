@@ -4,7 +4,7 @@ export interface IPaginationParams {
 	per_page: number;
 	bottom: number;
 	offset?: number;
-	orderBy: string;
+	orderBy: string | object;
 	orderDirection: 'asc' | 'desc';
 	where?: any;
 	select?: any;
