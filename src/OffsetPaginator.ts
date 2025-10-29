@@ -6,7 +6,8 @@ export async function offsetPaginator(params: IPaginationParams): Promise<TPagin
 	const offset = Number(params.offset ?? 0);
 
 	const [count, data]: [number, object[]] = await params.instance.$transaction([
-		model.count({
+		model[params.distinct ? 'groupBy' : 'count']({
+			...(params.distinct && { by: params.distinct }),
 			where: params.where,
 		}),
 		model.findMany({
