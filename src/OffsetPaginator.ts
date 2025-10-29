@@ -2,19 +2,23 @@ import { parserAround } from './ParserAround';
 import { IPaginationMeta, IPaginationParams, TPaginationData } from './interfaces';
 
 export async function offsetPaginator(params: IPaginationParams): Promise<TPaginationData> {
-	const model = params.instance[params.entity];
 	const offset = Number(params.offset ?? 0);
 
-	const [count, data]: [number, object[]] = await params.instance.$transaction([
-		params?.distinct
-			? model.groupBy({
-					by: params.distinct,
-					where: params.where,
-			  })
-			: model.count({
-					where: params.where,
-			  }),
-		model.findMany({
+	const { count, data } = await params.instance.$transaction(async (repository) => {
+		let count = 0;
+
+		if (params.distinct) {
+			const repositoryPromiseCount = await repository[params.entity].groupBy({
+				by: params.distinct,
+				where: params.where,
+			});
+
+			count = repositoryPromiseCount.length;
+		} else {
+			count = await repository[params.entity].count({ where: params.where });
+		}
+
+		const repositoryPromiseData = await repository[params.entity].findMany({
 			take: params.per_page,
 			skip: offset,
 			where: params.where,
@@ -27,8 +31,13 @@ export async function offsetPaginator(params: IPaginationParams): Promise<TPagin
 			...(params.distinct && { distinct: params.distinct }),
 			...(params.select && { select: params.select }),
 			...(params.include && { include: params.include }),
-		}),
-	]);
+		});
+
+		return {
+			count,
+			data: repositoryPromiseData,
+		};
+	});
 
 	if (data.length === 0) return;
 
