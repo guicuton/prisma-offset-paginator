@@ -24,6 +24,9 @@
 	"bugs": {
 		"url": "https://github.com/guicuton/prisma-offset-paginator/issues"
 	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"homepage": "https://github.com/guicuton/prisma-offset-paginator#readme",
 	"devDependencies": {
 		"ts-node": "^10.9.1",
