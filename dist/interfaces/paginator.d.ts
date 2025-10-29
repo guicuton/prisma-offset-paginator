@@ -7,6 +7,7 @@ export interface IPaginationParams {
     orderBy: string | object;
     orderDirection: 'asc' | 'desc';
     where?: any;
+    distinct?: string[];
     select?: any;
     include?: any;
 }

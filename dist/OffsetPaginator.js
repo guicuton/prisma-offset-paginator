@@ -10,11 +10,11 @@ async function offsetPaginator(params) {
         model.count({
             where: params.where,
         }),
-        model.findMany(Object.assign(Object.assign({ take: params.per_page, skip: offset, where: params.where, orderBy: typeof params.orderBy === 'string'
+        model.findMany(Object.assign(Object.assign(Object.assign({ take: params.per_page, skip: offset, where: params.where, orderBy: typeof params.orderBy === 'string'
                 ? {
                     [params.orderBy]: params.orderDirection,
                 }
-                : params.orderBy }, (params.select && { select: params.select })), (params.include && { include: params.include }))),
+                : params.orderBy }, (params.distinct && { distinct: params.distinct })), (params.select && { select: params.select })), (params.include && { include: params.include }))),
     ]);
     if (data.length === 0)
         return;

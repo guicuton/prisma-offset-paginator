@@ -19,6 +19,7 @@ export async function offsetPaginator(params: IPaginationParams): Promise<TPagin
 							[params.orderBy]: params.orderDirection,
 					  }
 					: params.orderBy,
+			...(params.distinct && { distinct: params.distinct }),
 			...(params.select && { select: params.select }),
 			...(params.include && { include: params.include }),
 		}),
